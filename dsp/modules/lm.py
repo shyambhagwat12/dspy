@@ -44,6 +44,11 @@ class LM(ABC):
         for x in reversed(self.history[-100:]):
             prompt = x["prompt"]
 
+
+            system_instructions = x['raw_kwargs'].get('system_instructions', '')
+            if system_instructions:
+                prompt = f"{system_instructions}\n---\n{prompt}"
+
             if prompt != last_prompt:
 
                 if provider == "clarifai" or provider == "google" or provider == "claude":
